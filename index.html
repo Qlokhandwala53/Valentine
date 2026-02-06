@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>System Override 💘</title>
+
+<style>
+/* 🚫 DESKTOP BLOCK */
+@media (min-width: 768px) {
+  body {
+    background: black;
+    color: red;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: monospace;
+  }
+  body::before {
+    content: "⚠ ACCESS DENIED ⚠\A Mobile device required.";
+    white-space: pre;
+    font-size: 22px;
+    text-align: center;
+  }
+  * { display: none; }
+}
+
+body {
+  margin: 0;
+  font-family: monospace;
+  background: black;
+  color: #00ffcc;
+  overflow: hidden;
+}
+
+/* 📸 BACKDROP */
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: url("QA.jpeg") center/cover no-repeat;
+  filter: blur(4px) brightness(0.4);
+  z-index: -2;
+}
+
+/* 💕 FLOATING HEARTS */
+.heart {
+  position: fixed;
+  bottom: -20px;
+  animation: float 6s linear infinite;
+}
+@keyframes float {
+  to {
+    transform: translateY(-120vh);
+    opacity: 0;
+  }
+}
+
+/* 🖥 TERMINAL */
+.terminal {
+  padding: 20px;
+  text-shadow: 0 0 10px #00ffcc;
+}
+
+/* 🔋 BATTERY */
+.battery {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  border: 1px solid #00ffcc;
+  padding: 5px 10px;
+  font-size: 12px;
+}
+
+/* 💘 BUTTONS */
+button {
+  background: black;
+  color: #00ffcc;
+  border: 1px solid #00ffcc;
+  padding: 12px 20px;
+  font-size: 16px;
+  margin: 10px;
+  border-radius: 8px;
+}
+
+#noBtn {
+  position: absolute;
+}
+
+.override {
+  display: none;
+  color: #ff69b4;
+  font-size: 18px;
+  margin-top: 20px;
+}
+
+.countdown {
+  display: none;
+  font-size: 18px;
+  color: #ffb6c1;
+}
+
+.flash {
+  position: fixed;
+  inset: 0;
+  background: white;
+  opacity: 0;
+  pointer-events: none;
+}
+</style>
+</head>
+
+<body>
+
+<div class="backdrop"></div>
+<div class="flash" id="flash"></div>
+
+<div class="battery" id="battery">🔋 100%</div>
+
+<audio autoplay loop>
+  <source src="Raabta.mp3" type="audio/mpeg">
+</audio>
+
+<div class="terminal">
+  <p>> Booting ValentineOS…</p>
+  <p>> Target identified: <b>Arefa 💖</b></p>
+  <p>> Initializing emotions…</p>
+
+  <h2>💘 Will you be my Valentine? 💘</h2>
+
+  <button onclick="yesClicked()">YES 💕</button>
+  <button id="noBtn">NO 🙃</button>
+
+  <div class="countdown" id="countdown"></div>
+
+  <div class="override" id="override">
+    ⚠ SYSTEM OVERRIDE ⚠  
+    <br>❤️ Love accepted successfully ❤️
+  </div>
+</div>
+
+<script>
+/* 🔋 FAKE BATTERY DRAIN */
+let battery = 100;
+setInterval(() => {
+  if (battery > 5) {
+    battery--;
+    document.getElementById("battery").innerText =
+      "🔋 " + battery + "% (draining due to love 💕)";
+  }
+}, 2500);
+
+/* 💔 NO BUTTON = RUN + CRASH AFTER 3 */
+const noBtn = document.getElementById("noBtn");
+let noCount = 0;
+noBtn.addEventListener("click", () => {
+  noCount++;
+  const guilt = [
+    "Are you sure? 🥺",
+    "That hurt 😭",
+    "System error 💔",
+    "Love rejected?? 😳",
+    "My heart.exe crashed 💘"
+  ];
+  
+  if (noCount < 3) {
+    noBtn.style.top = Math.random()*80 + "%";
+    noBtn.style.left = Math.random()*80 + "%";
+    noBtn.innerText = guilt[Math.floor(Math.random()*guilt.length)];
+  } else {
+    document.body.innerHTML = `
+      <div style="
+        background:black;
+        color:red;
+        height:100vh;
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+        justify-content:center;
+        font-family:monospace;
+        text-align:center;">
+        <h1>⚠ SYSTEM CRASH ⚠</h1>
+        <p>Reason: Love rejected 💔</p>
+        <p>Only ONE fix available…</p>
+        <h2 style="color:#ff69b4;">Click YES 💖</h2>
+      </div>
+    `;
+  }
+});
+
+/* 💖 YES FLOW */
+function yesClicked() {
+  document.querySelector("button").disabled = true;
+  startCountdown();
+}
+
+/* ⏳ COUNTDOWN + THINKING */
+function startCountdown() {
+  const cd = document.getElementById("countdown");
+  cd.style.display = "block";
+  let time = 3;
+
+  const timer = setInterval(() => {
+    cd.innerText = "Processing feelings… " + time;
+    time--;
+
+    if (time < 0) {
+      clearInterval(timer);
+      showOverride();
+    }
+  }, 1000);
+}
+
+/* ⚠ SYSTEM OVERRIDE */
+function showOverride() {
+  document.getElementById("countdown").style.display = "none";
+  document.getElementById("override").style.display = "block";
+  launchHearts();
+  fakeScreenshot();
+  redirectWhatsApp();
+}
+
+/* 📸 FAKE SCREENSHOT */
+function fakeScreenshot() {
+  document.documentElement.requestFullscreen?.();
+  const flash = document.getElementById("flash");
+  flash.style.opacity = 1;
+  setTimeout(() => flash.style.opacity = 0, 300);
+}
+
+/* 💬 WHATSAPP REDIRECT */
+function redirectWhatsApp() {
+  setTimeout(() => {
+    const yourWhatsAppNumber = "971501234567"; // <- put your number here
+    const msg = encodeURIComponent("I said YES 💖🥺");
+    window.location.href =
+      "https://wa.me/" + yourWhatsAppNumber + "?text=" + msg;
+  }, 3500);
+}
+
+/* 💕 HEARTS */
+function launchHearts() {
+  setInterval(() => {
+    const h = document.createElement("div");
+    h.className = "heart";
+    h.innerHTML = Math.random() > 0.5 ? "💖" : "💘";
+    h.style.left = Math.random()*100 + "vw";
+    h.style.fontSize = Math.random()*20 + 14 + "px";
+    document.body.appendChild(h);
+    setTimeout(() => h.remove(), 6000);
+  }, 250);
+}
+</script>
+
+</body>
+</html>
