@@ -1,139 +1,175 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>For You 💖</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>love.exe 💘</title>
 
 <style>
+/* MOBILE ONLY */
+@media (min-width: 768px) {
+  body {
+    background: black;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  body::before {
+    content: "⚠️ Mobile device required";
+    font-size: 22px;
+  }
+  * { display:none; }
+}
+
 body {
   margin: 0;
-  font-family: "Courier New", monospace;
-  color: #00ffcc;
+  font-family: monospace;
   background: black;
+  color: #00ff9c;
   overflow: hidden;
 }
 
-/* 🌸 BACKGROUND IMAGE */
+/* BACKDROP PHOTO (SAFE ZONE) */
 .backdrop {
   position: fixed;
   inset: 0;
-  background: url("QA.jpg") center / cover no-repeat;
-  filter: blur(4px) brightness(0.5);
-  z-index: -1;
+  background: url("QA.jpg") center/cover no-repeat;
+  opacity: 0.5;
+  z-index: -2;
 }
 
-/* 💻 CONTENT */
-.container {
-  padding: 20px;
-  text-shadow: 0 0 10px #00ffcc;
-}
-
-/* 💕 BUTTONS */
-button {
-  background: transparent;
-  color: #00ffcc;
-  border: 1px solid #00ffcc;
-  padding: 12px 22px;
-  font-size: 18px;
-  margin: 12px;
-  border-radius: 10px;
-}
-
-/* 💖 HEARTS */
+/* HEARTS */
 .heart {
-  position: fixed;
-  bottom: -20px;
+  position: absolute;
+  color: pink;
+  font-size: 20px;
   animation: float 6s linear infinite;
 }
-
 @keyframes float {
-  to {
-    transform: translateY(-120vh);
-    opacity: 0;
-  }
+  from { transform: translateY(100vh); opacity: 1; }
+  to { transform: translateY(-10vh); opacity: 0; }
 }
 
-/* 💌 MESSAGE */
-#loveMsg {
-  display: none;
-  color: #ff69b4;
-  font-size: 20px;
-  margin-top: 20px;
+.container {
+  padding: 20px;
+}
+
+button {
+  background: black;
+  color: #00ff9c;
+  border: 1px solid #00ff9c;
+  padding: 12px 20px;
+  font-size: 18px;
+  margin: 10px;
+  border-radius: 6px;
+}
+
+#noBtn {
+  position: absolute;
+}
+
+.glitch {
+  animation: glitch 1s infinite;
+}
+@keyframes glitch {
+  0% { opacity:1 }
+  50% { opacity:0.6 }
+  100% { opacity:1 }
 }
 </style>
 </head>
 
 <body>
-
 <div class="backdrop"></div>
 
-<!-- 🎵 MUSIC (NO AUTOPLAY – IPHONE SAFE) -->
-<audio id="music" loop preload="auto">
+<audio autoplay loop>
   <source src="Raabta.mp3" type="audio/mpeg">
 </audio>
 
-<div class="container">
-  <p>💗 Hey Arefa…</p>
-  <p>I’ve been meaning to ask you something very special ✨</p>
+<div class="container" id="terminal">
+<pre id="text"></pre>
 
-  <h2>💘 Will you be my Valentine? 💘</h2>
-
-  <button id="yesBtn">YES 💕</button>
-  <button id="noBtn">NO 🙈</button>
-
-  <div id="loveMsg">
-    💖 Yayyy!! You just made my heart the happiest ❤️  
-  </div>
+<button onclick="acceptLove()">YES 💖</button>
+<button id="noBtn" onmouseover="runAway()">NO 🙈</button>
 </div>
 
 <script>
-const music = document.getElementById("music");
-const yesBtn = document.getElementById("yesBtn");
-const noBtn = document.getElementById("noBtn");
-const loveMsg = document.getElementById("loveMsg");
+/* EDIT WHATSAPP NUMBER HERE */
+const whatsappNumber = "918238519348"; // countrycode + number
 
-/* 🎵 START MUSIC ON FIRST TAP (IPHONE RULE) */
-function startMusic() {
-  music.play().catch(() => {});
+const lines = [
+"> Initializing love.exe...",
+"> Checking heartbeat... ❤️ detected",
+"> Loading memories... too many cute moments found",
+"> Warning: Dil control se bahar ja raha hai 😳",
+"",
+"SYSTEM MESSAGE:",
+"Arefa 💕",
+"",
+"\"Tum agar saath ho… toh har safar khoobsurat lagta hai\" 🎶",
+"\"Mujhe tumse pyaar ho gaya hai… nahi, bahut zyada\" ❤️",
+"",
+"Will you be my Valentine? 🌹💘",
+"",
+"> Battery draining because of LOVE 🔋❤️",
+"> Awaiting your response..."
+];
+
+let i = 0;
+function typeText() {
+  if (i < lines.length) {
+    text.innerHTML += lines[i] + "\n";
+    i++;
+    setTimeout(typeText, 500);
+  }
+}
+typeText();
+
+/* NO BUTTON RUNS */
+function runAway() {
+  const no = document.getElementById("noBtn");
+  no.style.top = Math.random()*80 + "vh";
+  no.style.left = Math.random()*80 + "vw";
+  no.innerText = [
+    "Are you sure? 😢",
+    "Dil toot raha hai 💔",
+    "Soch lo… SRK bhi maan jaata 👀",
+    "Love.exe crashing 💥"
+  ][Math.floor(Math.random()*4)];
+  no.style.transform = "scale(0.8)";
 }
 
-/* 💖 YES CLICK */
-yesBtn.addEventListener("click", () => {
-  startMusic();
-  loveMsg.style.display = "block";
-  yesBtn.disabled = true;
-  noBtn.style.display = "none";
-  launchHearts();
+/* YES ACTION */
+function acceptLove() {
+  text.innerHTML += `
+ACCESS GRANTED ✅
 
-  setTimeout(() => {
-    const msg = encodeURIComponent("I said YES 💖🥺");
-    window.location.href = "https://wa.me/918238515858?text=" + msg;
-  }, 3000);
-});
+"Aaj se tum meri ho" 💖
+"Picture abhi baaki hai mere dost" 😌
 
-/* 😜 NO BUTTON RUNS */
-noBtn.addEventListener("click", () => {
-  startMusic();
-  noBtn.style.position = "absolute";
-  noBtn.style.left = Math.random() * 80 + "%";
-  noBtn.style.top = Math.random() * 80 + "%";
-});
-
-/* 💕 FLOATING HEARTS */
-function launchHearts() {
-  setInterval(() => {
-    const h = document.createElement("div");
-    h.className = "heart";
-    h.innerHTML = Math.random() > 0.5 ? "💖" : "💘";
-    h.style.left = Math.random() * 100 + "vw";
-    h.style.fontSize = Math.random() * 20 + 16 + "px";
-    document.body.appendChild(h);
-    setTimeout(() => h.remove(), 6000);
-  }, 300);
+Redirecting to WhatsApp…
+Screenshot this moment 📸
+`;
+  setTimeout(()=>{
+    window.location.href =
+    "https://wa.me/" + whatsappNumber +
+    "?text=" +
+    encodeURIComponent("YES 💖 I choose you. Happy Valentine’s Day 😘");
+  }, 2500);
 }
+
+/* HEART GENERATOR */
+setInterval(()=>{
+  const h = document.createElement("div");
+  h.className = "heart";
+  h.innerText = "💖";
+  h.style.left = Math.random()*100 + "vw";
+  h.style.fontSize = Math.random()*20 + 10 + "px";
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),6000);
+}, 400);
 </script>
 
 </body>
 </html>
-
