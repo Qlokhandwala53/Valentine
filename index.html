@@ -1,174 +1,179 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>love.exe 💘</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>For You 💖</title>
 
 <style>
-/* MOBILE ONLY */
-@media (min-width: 768px) {
-  body {
-    background: black;
-    color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  body::before {
-    content: "⚠️ Mobile device required";
-    font-size: 22px;
-  }
-  * { display:none; }
-}
-
 body {
   margin: 0;
-  font-family: monospace;
+  font-family: "Courier New", monospace;
   background: black;
-  color: #00ff9c;
+  color: #00ffcc;
   overflow: hidden;
 }
 
-/* BACKDROP PHOTO (SAFE ZONE) */
+/* 🌸 BACKGROUND */
 .backdrop {
   position: fixed;
   inset: 0;
-  background: url("QA.jpg") center/cover no-repeat;
-  opacity: 0.5;
-  z-index: -2;
+  background: url("QA.jpg") center / cover no-repeat;
+  filter: blur(4px) brightness(0.5);
+  z-index: -1;
 }
 
-/* HEARTS */
+/* 💻 CONTENT */
+.container {
+  padding: 20px;
+  text-shadow: 0 0 10px #00ffcc;
+}
+
+/* 💕 BUTTONS */
+button {
+  background: transparent;
+  color: #00ffcc;
+  border: 1px solid #00ffcc;
+  padding: 12px 22px;
+  font-size: 18px;
+  margin: 12px;
+  border-radius: 10px;
+}
+
+/* 💖 HEARTS */
 .heart {
-  position: absolute;
-  color: pink;
-  font-size: 20px;
+  position: fixed;
+  bottom: -20px;
   animation: float 6s linear infinite;
 }
 @keyframes float {
-  from { transform: translateY(100vh); opacity: 1; }
-  to { transform: translateY(-10vh); opacity: 0; }
+  to {
+    transform: translateY(-120vh);
+    opacity: 0;
+  }
 }
 
-.container {
-  padding: 20px;
-}
-
-button {
-  background: black;
-  color: #00ff9c;
-  border: 1px solid #00ff9c;
-  padding: 12px 20px;
+/* 💌 AFTER YES SCREEN */
+#afterYes {
+  display: none;
+  color: #ff69b4;
+  white-space: pre-line;
   font-size: 18px;
-  margin: 10px;
-  border-radius: 6px;
 }
 
-#noBtn {
-  position: absolute;
+/* 📸 FLASH EFFECT */
+.flash {
+  position: fixed;
+  inset: 0;
+  background: white;
+  opacity: 0.8;
+  z-index: 9999;
+  animation: snap 0.4s forwards;
 }
-
-.glitch {
-  animation: glitch 1s infinite;
-}
-@keyframes glitch {
-  0% { opacity:1 }
-  50% { opacity:0.6 }
-  100% { opacity:1 }
+@keyframes snap {
+  from { opacity: 0.8; }
+  to { opacity: 0; }
 }
 </style>
 </head>
 
 <body>
+
 <div class="backdrop"></div>
 
-<audio autoplay loop>
+<!-- 🎵 MUSIC (iPhone safe: NO autoplay) -->
+<audio id="music" preload="auto">
   <source src="Raabta.mp3" type="audio/mpeg">
 </audio>
 
-<div class="container" id="terminal">
-<pre id="text"></pre>
+<div class="container" id="content">
+  <p>💗 Hey Arefa…</p>
+  <p>I have something very special to ask you ✨</p>
 
-<button onclick="acceptLove()">YES 💖</button>
-<button id="noBtn" onmouseover="runAway()">NO 🙈</button>
-</div>
+  <h2>💘 Will you be my Valentine? 💘</h2>
 
-<script>
-/* EDIT WHATSAPP NUMBER HERE */
-const whatsappNumber = "918238519348"; // countrycode + number
+  <button id="yesBtn">YES 💕</button>
+  <button id="noBtn">NO 🙈</button>
 
-const lines = [
-"> Initializing love.exe...",
-"> Checking heartbeat... ❤️ detected",
-"> Loading memories... too many cute moments found",
-"> Warning: Dil control se bahar ja raha hai 😳",
-"",
-"SYSTEM MESSAGE:",
-"Arefa 💕",
-"",
-"\"Tum agar saath ho… toh har safar khoobsurat lagta hai\" 🎶",
-"\"Mujhe tumse pyaar ho gaya hai… nahi, bahut zyada\" ❤️",
-"",
-"Will you be my Valentine? 🌹💘",
-"",
-"> Battery draining because of LOVE 🔋❤️",
-"> Awaiting your response..."
-];
-
-let i = 0;
-function typeText() {
-  if (i < lines.length) {
-    text.innerHTML += lines[i] + "\n";
-    i++;
-    setTimeout(typeText, 500);
-  }
-}
-typeText();
-
-/* NO BUTTON RUNS */
-function runAway() {
-  const no = document.getElementById("noBtn");
-  no.style.top = Math.random()*80 + "vh";
-  no.style.left = Math.random()*80 + "vw";
-  no.innerText = [
-    "Are you sure? 😢",
-    "Dil toot raha hai 💔",
-    "Soch lo… SRK bhi maan jaata 👀",
-    "Love.exe crashing 💥"
-  ][Math.floor(Math.random()*4)];
-  no.style.transform = "scale(0.8)";
-}
-
-/* YES ACTION */
-function acceptLove() {
-  text.innerHTML += `
+  <div id="afterYes">
 ACCESS GRANTED ✅
 
 "Aaj se tum meri ho" 💖
-"Picture abhi baaki hai mere dost" 😌
+"Mohabbat bhi coding jaisi hoti hai…
+ek baar sahi ho jaaye,
+phir lifetime chalti hai" 😌
 
-Redirecting to WhatsApp…
-Screenshot this moment 📸
-`;
-  setTimeout(()=>{
-    window.location.href =
-    "https://wa.me/" + whatsappNumber +
-    "?text=" +
-    encodeURIComponent("YES 💖 I choose you. Happy Valentine’s Day 😘");
-  }, 2500);
+✔ Love level: 100%
+✔ Valentine secured 💘
+✔ Hearts synced ❤️
+
+📸 Screenshot this moment
+(Volume + Power 😉)
+
+💬 Redirecting to WhatsApp…
+  </div>
+</div>
+
+<script>
+const music = document.getElementById("music");
+const yesBtn = document.getElementById("yesBtn");
+const noBtn = document.getElementById("noBtn");
+const afterYes = document.getElementById("afterYes");
+const content = document.getElementById("content");
+
+/* 🎵 iPhone rule: play only after tap */
+function startMusic() {
+  music.play().catch(() => {});
 }
 
-/* HEART GENERATOR */
-setInterval(()=>{
-  const h = document.createElement("div");
-  h.className = "heart";
-  h.innerText = "💖";
-  h.style.left = Math.random()*100 + "vw";
-  h.style.fontSize = Math.random()*20 + 10 + "px";
-  document.body.appendChild(h);
-  setTimeout(()=>h.remove(),6000);
-}, 400);
+/* 💖 YES CLICK */
+yesBtn.addEventListener("click", () => {
+  startMusic();
+
+  yesBtn.style.display = "none";
+  noBtn.style.display = "none";
+  afterYes.style.display = "block";
+
+  fakeScreenshot();
+  launchHearts();
+
+  setTimeout(() => {
+    const msg = encodeURIComponent(
+      "YES 💖 I choose you. Happy Valentine’s Day 😘"
+    );
+    window.location.href =
+      "https://wa.me/918238519348?text=" + msg;
+  }, 3000);
+});
+
+/* 😜 NO BUTTON RUNS */
+noBtn.addEventListener("click", () => {
+  startMusic();
+  noBtn.style.position = "absolute";
+  noBtn.style.left = Math.random() * 80 + "%";
+  noBtn.style.top = Math.random() * 80 + "%";
+});
+
+/* 📸 FAKE SCREENSHOT FLASH */
+function fakeScreenshot() {
+  const flash = document.createElement("div");
+  flash.className = "flash";
+  document.body.appendChild(flash);
+  setTimeout(() => flash.remove(), 400);
+}
+
+/* 💕 FLOATING HEARTS */
+function launchHearts() {
+  setInterval(() => {
+    const h = document.createElement("div");
+    h.className = "heart";
+    h.innerHTML = Math.random() > 0.5 ? "💖" : "💘";
+    h.style.left = Math.random() * 100 + "vw";
+    h.style.fontSize = Math.random() * 20 + 16 + "px";
+    document.body.appendChild(h);
+    setTimeout(() => h.remove(), 6000);
+  }, 300);
+}
 </script>
 
 </body>
